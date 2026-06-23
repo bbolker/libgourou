@@ -1,7 +1,40 @@
 # Build notes (Ben Bolker)
 
-These notes document how to build libgourou and its dependencies from source
-using CMake on Ubuntu 22.04.
+These notes document how to build and install libgourou and its dependencies
+from source using CMake on Ubuntu 22.04 / Pop!\_OS.
+
+## Quick start
+
+Two scripts in this repo handle everything after cloning:
+
+- **`build_all.sh`** — installs missing system packages, clones sibling
+  dependencies if needed, and builds everything. Run from the `libgourou/`
+  directory:
+
+  ```bash
+  bash build_all.sh
+  ```
+
+  Override the build type with `BUILD_TYPE=Release bash build_all.sh`.
+
+- **`install.sh`** — installs the libraries, headers, and binaries
+  system-wide (default prefix `/usr/local`). Run after `build_all.sh`:
+
+  ```bash
+  bash install.sh          # installs to /usr/local
+  PREFIX=~/.local bash install.sh   # or to a custom prefix
+  ```
+
+  Installed files:
+  - Binaries (`acsmdownloader`, `adept_activate`, `adept_loan_mgt`,
+    `adept_remove`, `launcher`) → `$PREFIX/bin/`
+  - Static libraries (`libgourou.a`, `libgourou_utils.a`) → `$PREFIX/lib/`
+  - Headers → `$PREFIX/include/`
+  - CMake config (`libgourouConfig.cmake`) → `$PREFIX/share/libgourou/`
+
+The rest of this file documents the steps the scripts perform, for reference.
+
+---
 
 ## 1. System packages
 
@@ -84,7 +117,9 @@ cmake -DCMAKE_BUILD_TYPE=Debug \
 cmake --build libgourou/build
 ```
 
-Outputs (`libgourou.a`, `libgourou_utils.a`) are written to `libgourou/build/`.
+Outputs are written to `libgourou/build/`: static libraries `libgourou.a` and
+`libgourou_utils.a`, and executables `acsmdownloader`, `adept_activate`,
+`adept_loan_mgt`, `adept_remove`, and `launcher`.
 
 ## Changes made to upstream CMakeLists.txt
 

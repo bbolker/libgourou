@@ -1,3 +1,7 @@
+> **Pop!\_OS / Ubuntu 22.04 users:** see [README_BMB.md](README_BMB.md) for
+> tested, step-by-step instructions for building and installing from scratch,
+> including automated build and install scripts.
+
 Introduction
 ------------
 
