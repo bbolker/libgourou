@@ -54,7 +54,6 @@ install(FILES ${_export_file}
 install(TARGETS
             "${LIBRARY_NAME}"
             "${PROJECT_NAME_NO_PREFIX}_compiler_flags"
-            "${PROJECT_NAME_NO_PREFIX}_utils"
             "${PROJECT_NAME_NO_PREFIX}_include"
         EXPORT "${PROJECT_NAME}Targets"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"

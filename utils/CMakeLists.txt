@@ -7,29 +7,27 @@ set(Header_Files
 )
 source_group("Header Files" FILES "${Header_Files}")
 
-set(Source_Files
-        "acsmdownloader.cpp"
-        "adept_activate.cpp"
-        "adept_loan_mgt.cpp"
-        "adept_remove.cpp"
+# Common code shared by all utilities (no main())
+set(Common_Source_Files
         "drmprocessorclientimpl.cpp"
-        "launcher.cpp"
         "utils_common.cpp"
 )
-source_group("Source Files" FILES "${Source_Files}")
-
-add_library("${LIBRARY_NAME}" "${Header_Files}" "${Source_Files}")
 
 find_package(OpenSSL REQUIRED)
-find_package(libzip CONFIG REQUIRED)
-find_package(CURL CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(libzip REQUIRED IMPORTED_TARGET libzip)
+find_package(CURL REQUIRED)
+
+add_library("${LIBRARY_NAME}" "${Header_Files}" "${Common_Source_Files}")
 
 target_link_libraries(
         "${LIBRARY_NAME}"
-        PRIVATE
+        PUBLIC
         "${PROJECT_NAME_NO_PREFIX}_compiler_flags"
         "${PROJECT_NAME_NO_PREFIX}_include"
-        "libzip::zip"
+        "PkgConfig::libzip"
+        "ZLIB::ZLIB"
         "OpenSSL::SSL"
         "CURL::libcurl"
 )
@@ -47,10 +45,19 @@ include(GenerateExportHeader)
 set(_export_file "${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}_export.h")
 generate_export_header("${LIBRARY_NAME}" EXPORT_FILE_NAME "${_export_file}")
 
-# setup the version numbering
 set_property(TARGET "${LIBRARY_NAME}" PROPERTY VERSION "${${PROJECT_NAME}_VERSION}")
 set_property(TARGET "${LIBRARY_NAME}" PROPERTY SOVERSION "${${PROJECT_NAME}_VERSION_MAJOR}")
 
-# install rules
+# One executable per tool
+set(UTIL_TARGETS acsmdownloader adept_activate adept_loan_mgt adept_remove launcher)
+foreach(util IN LISTS UTIL_TARGETS)
+    add_executable("${util}" "${util}.cpp")
+    target_link_libraries("${util}" PRIVATE "${LIBRARY_NAME}" "${PROJECT_NAME_NO_PREFIX}")
+    install(TARGETS "${util}" RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endforeach()
+
 install(FILES "${_export_file}" ${Header_Files}
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+install(TARGETS "${LIBRARY_NAME}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
