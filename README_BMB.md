@@ -32,6 +32,15 @@ Two scripts in this repo handle everything after cloning:
   - Headers → `$PREFIX/include/`
   - CMake config (`libgourouConfig.cmake`) → `$PREFIX/share/libgourou/`
 
+Once you've built and installed, stripping DRM from an ebook you bought and want to read on an open platform is as simple as:
+
+```bash
+adept_activate -a
+acsmdownloader -f <my_acsm_file>
+acsmdownloader --export-private-key
+adept_remove -f <my_epub_file>
+```
+
 The rest of this file documents the steps the scripts perform, for reference.
 
 ---
