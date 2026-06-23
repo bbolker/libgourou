@@ -1,6 +1,6 @@
-# Build notes (Ben Bolker)
+# Build/install notes
 
-These notes document how to build and install libgourou and its dependencies
+These notes document how to build and install `libgourou` and its dependencies
 from source using CMake on Ubuntu 22.04 / Pop!\_OS.
 
 ## Quick start
@@ -26,7 +26,7 @@ Two scripts in this repo handle everything after cloning:
   system-wide (default prefix `/usr/local`). Run after `build_all.sh`:
 
   ```bash
-  bash install.sh          # installs to /usr/local
+  bash install.sh          # installs to /usr/local (uses sudo)
   PREFIX=~/.local bash install.sh   # or to a custom prefix
   ```
 
@@ -40,10 +40,10 @@ Two scripts in this repo handle everything after cloning:
 Once you've built and installed, stripping DRM from an ebook you bought and want to read on an open platform is as simple as:
 
 ```bash
-adept_activate -a
-acsmdownloader -f <my_acsm_file>
-acsmdownloader --export-private-key
-adept_remove -f <my_epub_file>
+adept_activate -a ## register anonymously (one-time step)
+acsmdownloader -f <my_acsm_file> ## download and decrypt
+acsmdownloader --export-private-key ##export key for use with Calibre
+adept_remove -f <my_epub_file> ## strip DRM
 ```
 
 The rest of this file documents the steps the scripts perform, for reference.
