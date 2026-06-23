@@ -17,9 +17,6 @@ echo "=== Installing to $PREFIX ==="
 
 sudo cmake --install "$GOUROU_BUILD" --prefix "$PREFIX"
 
-echo "=== Updating linker cache ==="
-sudo ldconfig
-
 echo "=== Done ==="
 echo "Binaries: $PREFIX/bin/{acsmdownloader,adept_activate,adept_loan_mgt,adept_remove,launcher}"
 echo "Libraries: $PREFIX/lib/libgourou.a  $PREFIX/lib/libgourou_utils.a"
