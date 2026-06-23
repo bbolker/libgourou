@@ -21,7 +21,7 @@ UPDF_INSTALL="$UPDF_SRC/install"
 
 GOUROU_BUILD="$SCRIPT_DIR/build"
 
-BUILD_TYPE="${BUILD_TYPE:-Debug}"
+BUILD_TYPE="${BUILD_TYPE:-Release}"
 
 echo "=== Installing system packages (if needed) ==="
 APT_PKGS=()

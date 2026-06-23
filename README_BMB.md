@@ -15,7 +15,12 @@ Two scripts in this repo handle everything after cloning:
   bash build_all.sh
   ```
 
-  Override the build type with `BUILD_TYPE=Release bash build_all.sh`.
+  The default build type is `Release` (optimized, no debug symbols). To
+  override — e.g. to add debugging symbols — use:
+
+  ```bash
+  BUILD_TYPE=Debug bash build_all.sh
+  ```
 
 - **`install.sh`** — installs the libraries, headers, and binaries
   system-wide (default prefix `/usr/local`). Run after `build_all.sh`:
