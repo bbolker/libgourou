@@ -38,6 +38,8 @@ if [ ! -d "$PUGIXML_SRC" ]; then
 fi
 if [ ! -d "$UPDF_SRC" ]; then
     git clone -b cmake https://github.com/SamuelMarks/updfparser.git "$UPDF_SRC"
+    # GCC 13 removed transitive includes that previously provided uint64_t etc.
+    sed -i 's|#include <map>|#include <cstdint>\n#include <map>|' "$UPDF_SRC/include/uPDFTypes.h"
 fi
 
 echo "=== Building pugixml ==="
