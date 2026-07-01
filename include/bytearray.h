@@ -20,6 +20,7 @@
 #ifndef _BYTEARRAY_H_
 #define _BYTEARRAY_H_
 
+#include <cstdint>
 #include <map>
 #include <string>
 
